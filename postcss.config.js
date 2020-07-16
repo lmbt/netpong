@@ -1,4 +1,5 @@
 const purgecss = require('@fullhuman/postcss-purgecss')({
+  purge: false,
   content: [
     './src/**/*.js',
     './src/**/*.jsx'

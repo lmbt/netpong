@@ -6,7 +6,7 @@ class NetPong {
     this.createCanvas()
     this.isGameActive = false
     this.targetFPS = 60
-    this.mpTickInterval = 100
+    this.mpTickInterval = 10
     this.lastFrameTime = Date.now()
     this.connectedToPeer = false
     this.role = null
@@ -73,10 +73,18 @@ class NetPong {
   setPlayer2Active() {
     this.emitter.emit('becomePlayer2')
     this.mpPlayer = 2
+    this.gameObjects.player2.upKey = 'KeyW'
+    this.gameObjects.player2.downKey = 'KeyS'
+    this.gameObjects.player1.upKey = 'KeyO'
+    this.gameObjects.player1.downKey = 'KeyL'
   }
   setPlayer1Active() {
     this.emitter.emit('becomePlayer1')
     this.mpPlayer = 1
+    this.gameObjects.player1.upKey = 'KeyW'
+    this.gameObjects.player1.downKey = 'KeyS'
+    this.gameObjects.player2.upKey = 'KeyO'
+    this.gameObjects.player2.downKey = 'KeyL'
   }
   createPeer(host, port, path, secure) {
     return new Promise((resolve, reject) => {
@@ -113,10 +121,6 @@ class NetPong {
           this.connectedToPeer = true
           this.emitter.emit('connectionFromRemotePeer')
           this.intervalID = setInterval(this.sendStateToPeer, this.mpTickInterval)
-          this.gameObjects.player2.upKey = 'KeyW'
-          this.gameObjects.player2.downKey = 'KeyS'
-          this.gameObjects.player1.upKey = 'KeyO'
-          this.gameObjects.player1.upKey = 'KeyL'
         })
         this.conn.on('data', (data) => {
           this.handleMessage(data)
@@ -142,13 +146,18 @@ class NetPong {
   }
   handleMessage(message) {
     if (this.role === 'host') {
-      this.gameObjects.player2 = message.player2
+      this.gameObjects.player2.posX = message.player2.posX
+      this.gameObjects.player2.posY = message.player2.posY
     } else {
-      this.gameObjects.player1 = message.player1
+      this.gameObjects.player1.posX = message.player1.posX
+      this.gameObjects.player1.posY = message.player1.posY
       this.gameObjects.ball = message.ball
       if (!this.isGameActive && message.active) {
         this.isGameActive = message.active
         this.render()
+      }
+      if (this.isGameActive && !message.active) {
+        this.isGameActive = message.active
       }
     }
     this.emitter.emit('messageFromRemotePeer')
@@ -160,10 +169,6 @@ class NetPong {
       this.connectedToPeer = true
       this.emitter.emit('connectionToRemotePeer')
       this.intervalID = setInterval(this.sendStateToPeer, this.mpTickInterval)
-      this.gameObjects.player1.upKey = 'KeyW'
-      this.gameObjects.player1.downKey = 'KeyS'
-      this.gameObjects.player2.upKey = 'KeyO'
-      this.gameObjects.player2.upKey = 'KeyL'
       this.setPlayer1Active()
     })
     this.conn.on('data', (data) => {
