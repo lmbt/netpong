@@ -1,0 +1,37 @@
+{
+	"name": "netpong",
+	"version": "0.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "parcel ./src/index.html",
+		"build": "parcel build ./src/index.html --public-url /netpong/ --no-source-maps --detailed-report --experimental-scope-hoisting"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/cli": "^7.10.4",
+		"@babel/core": "^7.10.4",
+		"@babel/plugin-transform-react-jsx": "^7.10.4",
+		"@babel/polyfill": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"@babel/preset-react": "^7.10.4",
+		"@fullhuman/postcss-purgecss": "^2.3.0",
+		"babel-eslint": "^10.1.0",
+		"babel-jest": "^26.1.0",
+		"babel-plugin-styled-components": "^1.10.7",
+		"eslint": "^7.4.0",
+		"jest": "^26.1.0",
+		"parcel-bundler": "^1.12.4",
+		"react-test-renderer": "^16.13.1"
+	},
+	"dependencies": {
+		"dompurify": "^2.0.12",
+		"html-react-parser": "^0.13.0",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1",
+		"react-redux": "^7.2.0",
+		"redux": "^4.0.5",
+		"tailwindcss": "^1.4.6"
+	}
+}
