@@ -5,10 +5,12 @@ class NetPong {
     this.rootEl = rootEl
     this.createCanvas()
     this.isGameActive = false
-    this.targetFPS = 60
     this.mpTickInterval = 10
-    this.lastFrameTime = Date.now()
+    // 1000 / (ticksPerSecond)
+    this.gameTickRate = 7
+    this.lastTickTime = Date.now()
     this.connectedToPeer = false
+    this.roundEnded = false
     this.role = null
     this.peer = null
     this.conn = null
@@ -45,6 +47,7 @@ class NetPong {
     let self = this
     document.addEventListener('keydown', this.keyPress)
     document.addEventListener('keyup', this.keyPress)
+    this.render()
   }
   shareEmitter() {
     return this.emitter
@@ -59,6 +62,13 @@ class NetPong {
     })
     this.emitter.on('resetGame', () => {
       this.resetGame()
+    })
+    this.emitter.on('togglePause', () => {
+      if (this.isGameActive) {
+        this.pauseGame()
+      } else {
+        this.unpauseGame()
+      }
     })
   }
   createCanvas() {
@@ -152,6 +162,8 @@ class NetPong {
       this.gameObjects.player1.posX = message.player1.posX
       this.gameObjects.player1.posY = message.player1.posY
       this.gameObjects.ball = message.ball
+      this.gameObjects.player1.points = message.player1.points
+      this.gameObjects.player2.points = message.player2.points
       if (!this.isGameActive && message.active) {
         this.isGameActive = message.active
         this.render()
@@ -240,19 +252,24 @@ class NetPong {
     this.gameObjects.ball.velY > 0 ? this.gameObjects.ball.velY = this.gameObjects.ball.velY + modifier : this.gameObjects.ball.velY = this.gameObjects.ball.velY - modifier
   }
   resetGame() {
-    console.log('game state was reset')
+    if (!this.roundEnded) {
+      this.resetScore()
+    }
     this.pauseGame()
     this.gameObjects.player1.posX = 0
     this.gameObjects.player1.posY = this.canvas.height / 2
-    this.gameObjects.player1.points = 0
     this.gameObjects.player2.posX = this.canvas.width
     this.gameObjects.player2.posY = this.canvas.height / 2
     this.gameObjects.ball.posX = this.canvas.width / 2
     this.gameObjects.ball.posY = this.canvas.height / 2
     this.gameObjects.ball.velX = this.randomVel()
     this.gameObjects.ball.velY = this.randomVel()
-    this.gameObjects.player2.points = 0
     this.emitter.emit('gameReset')
+    this.render()
+  }
+  resetScore() {
+    this.gameObjects.player1.points = 0
+    this.gameObjects.player2.points = 0
   }
   ballCollidePlayer1Wall() {
     if ((this.gameObjects.ball.posX - this.gameObjects.ball.radius) - this.gameObjects.ball.velX <= -5) {
@@ -327,11 +344,13 @@ class NetPong {
       this.gameObjects.player2.points++
       this.emitter.emit('player2Scored')
       this.pauseGame()
+      this.roundEnded = true
     }
     if (this.ballCollidePlayer2Wall()) {
       this.gameObjects.player1.points++
       this.emitter.emit('player1Scored')
       this.pauseGame()
+      this.roundEnded = true
     }
   }
   checkIfBallBounced() {
@@ -417,11 +436,13 @@ class NetPong {
     this.drawPlayer2()
     this.drawBall()
     if (this.isGameActive) {
-      this.lastFrameTime = Date.now()
-      this.checkIfPlayerScored()
-      this.checkIfBallBounced()
-      this.moveBall()
-      this.movePlayers()
+      if (Date.now() - this.lastTickTime >= this.gameTickRate) {
+        this.lastTickTime = Date.now()
+        this.checkIfPlayerScored()
+        this.checkIfBallBounced()
+        this.moveBall()
+        this.movePlayers()
+      }
       requestAnimationFrame(() => { this.render() })
     }
   }

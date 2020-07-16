@@ -1,17 +1,14 @@
 import Settings from './Settings'
 import Controls from './Controls'
+import Panel from './Panel'
 import { connect } from 'react-redux'
 import React from 'react'
 import MultiplayerConnect from './MultiplayerConnect'
 import Multiplayer from './Controls/Multiplayer'
 
 const UI = ({...props}) => {
-  let pauseButton = () => {
-    console.log('tried to pause...')
-    props.game.shareEmitter().emit('pauseGame')
-  }
-  let unpauseButton = () => {
-    props.game.shareEmitter().emit('unpauseGame')
+  let togglePause = () => {
+    props.game.shareEmitter().emit('togglePause')
   }
   let resetButton = () => {
     props.game.shareEmitter().emit('resetGame')
@@ -43,15 +40,21 @@ const UI = ({...props}) => {
       {props.pong.gameSettingsWindow === 'open' ? <Settings/> : null}
       {props.pong.multiplayerSettingsWindow === 'open' ? <MultiplayerConnect getLocalPeerId={getLocalPeerId} connectToRemotePeer={connectToRemotePeer}/> : null}
       <div
-        id={'gameRoot'}
-        style={
-          {width: '800px'},
-          {height: '400px'}
-        }
-      />
+        id={'pseudo-screen'}
+        className={'flex mb-4'}
+      >
+        <Panel player={1}/>
+        <div
+          id={'gameRoot'}
+          style={
+            {width: '800px'},
+            {height: '400px'}
+          }
+        />
+        <Panel player={2}/>
+      </div>
       <Controls
-        pause={pauseButton}
-        unpause={unpauseButton}
+        togglePause={togglePause}
         reset={resetButton}
       />
     </div>
