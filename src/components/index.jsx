@@ -23,11 +23,11 @@ const UI = ({...props}) => {
       props.pong.path,
       props.pong.secure === 'true'
     ).then(() => {
-      console.log(props.game.getPeerId())
+      console.log(props.game.getPeerID())
       props.dispatch({
         type: 'MULTIPLAYER_SETTINGS',
         payload: {
-          playerId: props.game.getPeerId()
+          playerId: props.game.getPeerID()
         }
       })
     })
