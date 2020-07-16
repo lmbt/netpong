@@ -10,7 +10,10 @@ const defaultState = {
   gameSettingsWindow: 'closed',
   multiplayerSettingsWindow: 'closed',
   playerId: '',
-  connectedTo: ''
+  connectedTo: '',
+  player1Score: 0,
+  player2Score: 0,
+  activePlayer: 0
 }
 
 export default (state = defaultState, action) => {
