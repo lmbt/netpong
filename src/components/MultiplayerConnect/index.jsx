@@ -21,14 +21,22 @@ const MultiplayerConnect = ({...props}) => {
   }
 
   return (
-    <div className={'w-full max-w-xs'}>
-      <form className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+    <div
+      className={'max-w-xs fixed'}
+      style={{
+        top: '50%',
+        left: '50%',
+        marginTop: '-201px',
+        marginLeft: '-160px'
+      }}
+    >
+      <form className={'bg-gray-300 shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
         <div className={'mb-4'}>
           <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor={'playerId'}>
             Player ID
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'playerid'}
             type={'text'}
             value={props.pong.playerId}
@@ -51,7 +59,7 @@ const MultiplayerConnect = ({...props}) => {
             Remote player's ID:
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'hostId'}
             type={'text'}
             placeholder={'put other player\'s id here'}
