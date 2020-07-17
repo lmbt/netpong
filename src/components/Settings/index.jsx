@@ -46,14 +46,22 @@ const MultiPlayerSettings = ({...props}) => {
   }
 
   return (
-    <div className={'w-full max-w-xs'}>
-      <form className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+    <div
+      className={'max-w-xs fixed'}
+      style={{
+        top: '50%',
+        left: '50%',
+        marginTop: '-201px',
+        marginLeft: '-160px'
+      }}
+    >
+      <form className={'bg-gray-300 shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
         <div className={'mb-4'}>
           <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor={'name'}>
             Name
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'name'}
             type={'text'}
             defaultValue={props.pong.name}
@@ -67,7 +75,7 @@ const MultiPlayerSettings = ({...props}) => {
             Host
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'host'}
             type={'text'}
             defaultValue={props.pong.host}
@@ -81,7 +89,7 @@ const MultiPlayerSettings = ({...props}) => {
             Path
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'path'}
             type={'text'}
             defaultValue={props.pong.path}
@@ -92,7 +100,7 @@ const MultiPlayerSettings = ({...props}) => {
             Port
           </label>
           <input
-            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+            className={'shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
             id={'port'}
             type={'text'}
             defaultValue={props.pong.port}

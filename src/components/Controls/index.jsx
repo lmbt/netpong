@@ -7,16 +7,22 @@ import Multiplayer from './Multiplayer'
 
 const Controls = ({...props}) => {
   return (
-    <div>
-      <div>Controls| width: {window.innerWidth} | height: {window.innerHeight}</div>
-      <PausePlay
-        togglePause={props.togglePause}
-      />
-      <Reset
-        reset={props.reset}
-      />
-      <Settings/>
-      <Multiplayer/>
+    <div
+      className={'mt-auto mb-auto'}
+    >
+      <div
+        id={'buttons'}
+        className={'flex justify-evenly'}
+      >
+        <PausePlay
+          togglePause={props.togglePause}
+        />
+        <Reset
+          reset={props.reset}
+        />
+        <Settings/>
+        <Multiplayer/>
+      </div>
     </div>
   )
 }

@@ -75,7 +75,7 @@ class NetPong {
     this.canvas = this.rootEl.appendChild(document.createElement('canvas'))
     this.canvas.width = 800
     this.canvas.height = 400
-    this.canvas.setAttribute('style', 'border: 1px solid black;')
+    this.canvas.setAttribute('style', 'border: 2px solid black;')
     this.context = this.canvas.getContext('2d')
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height)
     this.context.fillStyle = 'black'
@@ -237,6 +237,9 @@ class NetPong {
   unpauseGame() {
     console.log('game was unpaused')
     if (!this.isGameActive) {
+      if (this.roundEnded) {
+        this.resetGame()
+      }
       this.isGameActive = true
       this.render()
     }
@@ -254,6 +257,7 @@ class NetPong {
   resetGame() {
     if (!this.roundEnded) {
       this.resetScore()
+      this.emitter.emit('scoreReset')
     }
     this.pauseGame()
     this.gameObjects.player1.posX = 0
