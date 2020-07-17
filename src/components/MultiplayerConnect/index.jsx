@@ -87,7 +87,7 @@ const MultiplayerConnect = ({...props}) => {
           >
             Connection status: {
               props.pong.connected
-              ? <span style={{color: 'red'}}>Connected</span>
+              ? <span style={{color: 'green'}}>Connected</span>
               : <span style={{color: 'red'}}>Disconnected</span>
             }
           </label>
